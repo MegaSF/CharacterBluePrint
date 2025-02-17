@@ -2,7 +2,12 @@
  *@author evanrhea
  */
 public class Character {
-	
+	/**
+ 	*UPDATED:
+  	- Added damage increade
+   	- Added level up feature (still in testing)
+    	- Added damage scaling based off level up (also in testing)
+  	*/
 	
 	// INSTANCE VARS AND CONSTRUCTOR
 	
@@ -10,9 +15,9 @@ public class Character {
 	private String Role;
 	private int hp;
 	private int maxHp;
-//	private int damage;
+	private int damage = 5;
 	private int damageTaken;
-	private int level;
+	private int level = 1;
 //	private boolean mastered;
 	private int maxLevel;
 	private int Experience;
@@ -73,6 +78,10 @@ public class Character {
 		return this.EXPCap;
 	}
 	
+	public int getDamage() {
+		return this.damage;
+	}
+	
 	
 	public void setEXP(int amount) {
 		Experience = Math.max(0,Math.min(amount / 25, maxLevel));
@@ -83,7 +92,7 @@ public class Character {
 	}
 	
 	public void setLevel(int amount) {
-		this.level = Math.max(0, Math.min(amount, maxLevel));
+		this.level = Math.max(1, Math.min(amount, maxLevel));
 	}
 	
 	public void setMaxLevel(int amount) {
@@ -94,6 +103,7 @@ public class Character {
 		this.damageTaken  = Math.max(1, amount);
 	}
 	
+
 	public void setPotion(int amount) {
 		this.potion = Math.max(1, amount);
 	}
@@ -117,14 +127,26 @@ public class Character {
 	
 	public void setEXPGain(int amount) {
 		this.EXPGain = Math.max(0, amount);
+		
 	}
 	
-//	public void EarnEXP() {
+	public void EarnEXP() {
 //		// increase experience accumulated
-//		Experience += EXPGain;
+		Experience += EXPGain;
 //		// level up based on expgained
-//		level = Math.min(maxLevel, level + (Experience % EXPCap));
-//	}
+		level = Math.min(maxLevel, level + (Experience / EXPCap));
+		damage = Math.min(damage + (level % hp), 99999999);
+	}
+	
+	
+	
+	public void Display() {
+		System.out.println("Name: " + name);
+		System.out.println("Role: " + Role);
+		System.out.println("Level: " + level);
+		System.out.println("HP/MAX: " + hp + "/" + maxHp);
+		System.out.println("Damage: " + damage);
+	}
 	
 }
 
@@ -147,4 +169,5 @@ public class Character {
  * level => eventually dictates how strong a character is (hp, damage, etc), if level
  * above max, mastery is achieved, in which damage and health both max out.
  */
+
 
